@@ -688,6 +688,12 @@ config TARGET_BRPPT2
           Support
           B&R BRPPT2 platform
           based on Freescale's iMX6 SoC
+
+config TARGET_WARIO
+	bool "wario"
+	select MX6SL
+	select SUPPORT_SPL
+
 endchoice
 
 config SYS_SOC
@@ -696,6 +702,7 @@ config SYS_SOC
 source "board/ge/bx50v3/Kconfig"
 source "board/ge/b1x5v2/Kconfig"
 source "board/advantech/dms-ba16/Kconfig"
+source "board/amazon/wario/Kconfig"
 source "board/aristainetos/Kconfig"
 source "board/armadeus/opos6uldev/Kconfig"
 source "board/bachmann/ot1200/Kconfig"

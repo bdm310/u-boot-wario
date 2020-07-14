@@ -1,0 +1,12 @@
+if TARGET_WARIO
+
+config SYS_BOARD
+	default "wario"
+
+config SYS_VENDOR
+	default "amazon"
+
+config SYS_CONFIG_NAME
+	default "wario"
+
+endif

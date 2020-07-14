@@ -1,0 +1,99 @@
+/*
+ * Copyright (C) 2013 Freescale Semiconductor, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+#include "imx6sl.dtsi"
+
+/ {
+	model = "Kindle Paperwhite 3";
+	compatible = "amazon,wario", "fsl,imx6sl";
+
+	aliases {
+        mmc1 = &usdhc2;
+	};
+
+	memory {
+		reg = <0x80000000 0x40000000>;
+	};
+
+	regulators {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		reg_sd2_vmmc: sd2_vmmc {
+			compatible = "regulator-fixed";
+			regulator-name = "eMMC-VCCQ";
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			regulator-boot-on;
+		};
+	};
+};
+
+&iomuxc {
+	pinctrl-names = "default";
+
+	wario {
+		pinctrl_uart1: uart1grp {
+			fsl,pins = <
+				MX6SL_PAD_UART1_RXD__UART1_RX_DATA	0x1b0b1
+				MX6SL_PAD_UART1_TXD__UART1_TX_DATA	0x1b0b1
+			>;
+		};
+
+		pinctrl_usdhc2: usdhc2grp {
+			fsl,pins = <
+				/*
+				LVE_ENABLED,HYS_ENABLED,PUS_22KOHM_PU,PUE_PULL,
+				PKE_ENABLED,ODE_DISABLED,SPD_100MHZ,DSE_40OHM,SRE_FAST
+				*/
+				MX6SL_PAD_SD2_CLK__SD2_CLK			0x41F071
+				MX6SL_PAD_SD2_CMD__SD2_CMD			0x41F071
+				MX6SL_PAD_SD2_DAT0__SD2_DATA0		0x41F071
+				MX6SL_PAD_SD2_DAT1__SD2_DATA1		0x41F071
+				MX6SL_PAD_SD2_DAT2__SD2_DATA2		0x41F071
+				MX6SL_PAD_SD2_DAT3__SD2_DATA3		0x41F071
+				MX6SL_PAD_SD2_DAT4__SD2_DATA4		0x41F071
+				MX6SL_PAD_SD2_DAT5__SD2_DATA5		0x41F071
+				MX6SL_PAD_SD2_DAT6__SD2_DATA6		0x41F071
+				MX6SL_PAD_SD2_DAT7__SD2_DATA7		0x41F071
+				/*
+				LVE_ENABLED,HYS_ENABLED,PUS_100KOHM_PU,PUE_PULL,
+				PKE_ENABLED,ODE_DISABLED,SPD_100MHZ,DSE_40OHM,SRE_FAST
+				*/
+				MX6SL_PAD_SD2_RST__SD2_RESET		0x413071
+			>;
+		};
+	};
+};
+
+&uart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_uart1>;
+	status = "okay";
+};
+
+&usdhc2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usdhc2>;
+	bus-width = <8>;
+	vqmmc-supply = <&reg_sd2_vmmc>;
+	non-removable;
+	status = "okay";
+};
+
+&usbotg1 {
+	pinctrl-names = "default";
+	disable-over-current;
+	dr_mode = "peripheral";
+	status = "okay";
+};

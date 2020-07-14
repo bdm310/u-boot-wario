@@ -1032,6 +1032,8 @@ dtb-$(CONFIG_TARGET_DURIAN) += phytium-durian.dtb
 
 dtb-$(CONFIG_TARGET_PRESIDIO_ASIC) += ca-presidio-engboard.dtb
 
+dtb-$(CONFIG_TARGET_WARIO) += wario.dtb
+
 targets += $(dtb-y)
 
 # Add any required device tree compiler flags here
