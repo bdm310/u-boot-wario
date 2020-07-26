@@ -111,6 +111,21 @@
 
 #include "imx6_spl.h"
 
+/* 
+ * Have to undef the SPL memory parameters because we need
+ * functional bss and malloc before DDR is initialized to
+ * read the board ID info from eMMC and thus have to locate
+ * these blocks in OCRAM
+ */
+#undef CONFIG_SPL_BSS_START_ADDR
+#undef CONFIG_SPL_BSS_MAX_SIZE
+#undef CONFIG_SYS_SPL_MALLOC_START
+#undef CONFIG_SYS_SPL_MALLOC_SIZE
+#define CONFIG_SPL_BSS_START_ADDR      0x907000
+#define CONFIG_SPL_BSS_MAX_SIZE        0x1000
+#define CONFIG_SYS_SPL_MALLOC_START    0x900000
+#define CONFIG_SYS_SPL_MALLOC_SIZE     0x7000
+
 #define CONFIG_MXC_UART_BASE	UART1_BASE
 #define CONSOLE_DEV		"ttymxc0"
 
