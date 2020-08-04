@@ -22,8 +22,8 @@ int power_max77696_init(unsigned char bus)
 
 	p->name = name;
 	p->interface = PMIC_I2C;
-	p->number_of_regs = PMIC_NUM_OF_REGS;
-	p->hw.i2c.addr = CONFIG_POWER_MAX77696_I2C_ADDR;
+	p->number_of_regs = MAX77696_NUM_OF_REGS;
+	p->hw.i2c.addr = MAX77696_I2C_ADDR;
 	p->hw.i2c.tx_num = 1;
 	p->bus = bus;
 

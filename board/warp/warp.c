@@ -128,7 +128,7 @@ int power_init_board(void)
 	if (!p)
 		return -EINVAL;
 
-	ret = pmic_reg_read(p, CID, &reg);
+	ret = pmic_reg_read(p, MAX77696_REG_PMIC_CID, &reg);
 	if (ret)
 		return ret;
 
