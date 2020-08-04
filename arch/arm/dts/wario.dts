@@ -13,7 +13,7 @@
 #include "imx6sl.dtsi"
 
 / {
-	model = "Kindle Paperwhite 3";
+	model = "Amazon Wario";
 	compatible = "amazon,wario", "fsl,imx6sl";
 
 	aliases {

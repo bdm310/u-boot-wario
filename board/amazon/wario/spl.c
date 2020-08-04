@@ -340,6 +340,11 @@ void board_init_f(ulong dummy)
 	puts(board_info->name);
 	puts("\n");
 
+	if(!BOARD_IS_MUSCAT_WFO(pcbsn)) {
+		printf("Untested board type, halting.\n");
+		halt();
+	}
+
 	/* DDR init */
 	switch (board_info->mem_type) {
 	    case MEMORY_TYPE_LPDDR2:
