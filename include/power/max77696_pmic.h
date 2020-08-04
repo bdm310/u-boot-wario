@@ -56,6 +56,10 @@ enum {
 
 #define MAX77696_I2C_ADDR	0x3C
 
+/* Drivers name */
+#define MAX77696_LDO_DRIVER	"max77696_ldo"
+#define MAX77696_BUCK_DRIVER	"max77696_buck"
+
 #ifdef CONFIG_POWER
 int power_max77696_init(unsigned char bus);
 #endif
