@@ -341,8 +341,7 @@ void board_init_f(ulong dummy)
 	puts("\n");
 
 	if(!BOARD_IS_MUSCAT_WFO(pcbsn)) {
-		printf("Untested board type, halting.\n");
-		halt();
+		printf("Untested board type, trying to boot anyway but things might break.\n");
 	}
 
 	/* DDR init */
