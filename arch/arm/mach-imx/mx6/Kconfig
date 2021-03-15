@@ -691,7 +691,7 @@ config TARGET_BRPPT2
 
 config TARGET_WARIO
 	bool "wario"
-	select MX6SL
+	depends on MX6SL
 	select SUPPORT_SPL
 
 endchoice
