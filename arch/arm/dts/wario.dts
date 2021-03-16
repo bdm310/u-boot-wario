@@ -74,6 +74,35 @@
 				MX6SL_PAD_SD2_RST__SD2_RESET		0x413071
 			>;
 		};
+
+		pinctrl_usdhc3: usdhc3grp {
+			fsl,pins = <
+				/*
+				LVE_ENABLED,HYS_ENABLED,PUS_22KOHM_PU,PUE_PULL,
+				PKE_ENABLED,ODE_DISABLED,SPD_100MHZ,DSE_40OHM,SRE_FAST
+				*/
+				MX6SL_PAD_SD3_CLK__SD3_CLK			0x41F071
+				MX6SL_PAD_SD3_CMD__SD3_CMD			0x41F071
+				MX6SL_PAD_SD3_DAT0__SD3_DATA0		0x41F071
+				MX6SL_PAD_SD3_DAT1__SD3_DATA1		0x41F071
+				MX6SL_PAD_SD3_DAT2__SD3_DATA2		0x41F071
+				MX6SL_PAD_SD3_DAT3__SD3_DATA3		0x41F071
+
+				/*
+				WIFI_PWD
+				LVE_ENABLED, HYS_ENABLED, PUS_100KOHM_PU, PUE_PULL, 
+				PKE_ENABLED, ODE_DISABLED, SPD_100MHZ, DSE_40OHM, SRE_SLOW
+				*/
+				MX6SL_PAD_KEY_ROW2__GPIO3_IO29		0x41B0B0
+
+				/*
+				Unknown function
+				LVE_ENABLED, HYS_ENABLED, PUS_100KOHM_PD, PUE_KEEP, 
+				PKE_ENABLED, ODE_DISABLED, SPD_100MHZ, DSE_40OHM, SRE_SLOW
+				*/
+				MX6SL_PAD_LCD_VSYNC__GPIO2_IO18		0x4110B0
+			>;
+		};
 	};
 };
 
@@ -87,6 +116,15 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_usdhc2>;
 	bus-width = <8>;
+	vqmmc-supply = <&reg_sd2_vmmc>;
+	non-removable;
+	status = "okay";
+};
+
+&usdhc3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usdhc3>;
+	bus-width = <4>;
 	vqmmc-supply = <&reg_sd2_vmmc>;
 	non-removable;
 	status = "okay";
