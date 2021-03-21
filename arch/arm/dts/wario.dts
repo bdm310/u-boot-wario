@@ -18,6 +18,7 @@
 
 	aliases {
         mmc1 = &usdhc2;
+		usbotg0 = &usbotg1;
 	};
 
 	memory {
