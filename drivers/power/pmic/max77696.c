@@ -16,7 +16,8 @@
 
 static const struct pmic_child_info pmic_children_info[] = {
 	{ .prefix = "LDO", .driver = MAX77696_LDO_DRIVER },
-	{ .prefix = "BUCK", .driver = MAX77696_BUCK_DRIVER },
+	{ .prefix = "SD", .driver = MAX77696_SD_DRIVER },
+	{ .prefix = "BLPWM", .driver = MAX77696_BLPWM_DRIVER },
 	{ },
 };
 
@@ -48,24 +49,39 @@ static int max77696_read(struct udevice *dev, uint reg, uint8_t *buff, int len)
 
 static int max77696_bind(struct udevice *dev)
 {
-	ofnode regulators_node;
-	int children;
+	ofnode sub_node;
+	int children, ret = 0;
 
-	regulators_node = dev_read_subnode(dev, "voltage-regulators");
-	if (!ofnode_valid(regulators_node)) {
+	//TODO refactor this to remove copied code
+	sub_node = dev_read_subnode(dev, "voltage-regulators");
+	if (!ofnode_valid(sub_node)) {
 		debug("%s: %s regulators subnode not found!\n", __func__,
 		      dev->name);
-		return -ENXIO;
+		ret = -ENXIO;
+	}
+	else {
+		debug("%s: '%s' - found regulators subnode\n", __func__, dev->name);
+
+		children = pmic_bind_children(dev, sub_node, pmic_children_info);
+		if (!children)
+			debug("%s: %s - no child found\n", __func__, dev->name);
 	}
 
-	debug("%s: '%s' - found regulators subnode\n", __func__, dev->name);
+	sub_node = dev_read_subnode(dev, "pwm");
+	if (!ofnode_valid(sub_node)) {
+		debug("%s: %s pwm subnode not found!\n", __func__,
+		      dev->name);
+	}
+	else {
+		debug("%s: '%s' - found pwm subnode\n", __func__, dev->name);
 
-	children = pmic_bind_children(dev, regulators_node, pmic_children_info);
-	if (!children)
-		debug("%s: %s - no child found\n", __func__, dev->name);
+		children = pmic_bind_children(dev, sub_node, pmic_children_info);
+		if (!children)
+			debug("%s: %s - no child found\n", __func__, dev->name);
+	}
 
 	/* Always return success for this device */
-	return 0;
+	return ret;
 }
 
 static struct dm_pmic_ops max77696_ops = {

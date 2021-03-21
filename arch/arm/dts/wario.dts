@@ -30,13 +30,20 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		reg_sd2_vmmc: sd2_vmmc {
+		reg_sd2_vmmc: sd2_vmmc { //TODO This is probably in the max77696
 			compatible = "regulator-fixed";
 			regulator-name = "eMMC-VCCQ";
 			regulator-min-microvolt = <1800000>;
 			regulator-max-microvolt = <1800000>;
 			regulator-boot-on;
 		};
+	};
+
+	backlight {
+		compatible = "pwm-backlight";
+		pwms = <&bl_pwm 0 3921569>;
+		brightness-levels = <0 4 8 16 32 64 128 255>;
+		default-brightness-level = <6>;
 	};
 };
 
@@ -103,6 +110,13 @@
 				MX6SL_PAD_LCD_VSYNC__GPIO2_IO18		0x4110B0
 			>;
 		};
+		
+		pinctrl_i2c1: i2c1grp {
+			fsl,pins = <
+				MX6SL_PAD_I2C1_SCL__I2C1_SCL	0x4001b8b1
+				MX6SL_PAD_I2C1_SDA__I2C1_SDA	0x4001b8b1
+			>;
+		};
 	};
 };
 
@@ -135,4 +149,100 @@
 	disable-over-current;
 	dr_mode = "peripheral";
 	status = "okay";
+};
+
+&i2c1 {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c1>;
+	status = "okay";
+
+	pmic0: pmic0@3c {
+		compatible = "maxim,max77696";
+		//interrupt-parent = <&gpx3>;
+		//interrupts = <7 0>;
+		reg = <0x3c 0 0>;
+		#clock-cells = <1>;
+
+		pwm {
+			bl_pwm: BLPWM {
+				#pwm-cells = <2>;
+				status = "okay";
+			};
+		};
+
+		voltage-regulators {
+			ldo1_reg: LDO1 {
+				regulator-name = "VDD_ZFORCE2";
+				regulator-min-microvolt = <3000000>;
+				regulator-max-microvolt = <3300000>;
+			};
+
+			ldo2_reg: LDO2 {
+				regulator-name = "VDD_USBPHY";
+				regulator-min-microvolt = <3000000>;
+				regulator-max-microvolt = <3000000>;
+			};
+
+			//TODO: LDO3 Unknown
+
+			//LDO4-5 Disabled - input grounded
+
+			ldo6_reg: LDO6 {
+				regulator-name = "VDD_SNVS";
+				regulator-min-microvolt = <1600000>;
+				regulator-max-microvolt = <1600000>;
+			};
+
+			ldo7_reg: LDO7 {
+				regulator-name = "VDD_KEEPER";
+				regulator-min-microvolt = <3200000>;
+				regulator-max-microvolt = <3200000>;
+			};
+
+			//LDO8-9 Disabled - input grounded
+
+			ldo10_reg: LDO10 {
+				regulator-name = "VBUS";
+				regulator-min-microvolt = <5000000>;
+				regulator-max-microvolt = <5000000>;
+			};
+
+			sd1_reg: SD1 {
+				regulator-name = "VDD_CORE";
+				regulator-min-microvolt = <1250000>;
+				regulator-max-microvolt = <1250000>;
+			};
+
+			sd2_reg: SD2 {
+				regulator-name = "VDD_SOC";
+				regulator-min-microvolt = <1200000>;
+				regulator-max-microvolt = <1200000>;
+			};
+
+			sd3_reg: SD3 {
+				regulator-name = "V_SD3";
+				regulator-min-microvolt = <1300000>;
+				regulator-max-microvolt = <1300000>;
+			};
+
+			sd4_reg: SD4 {
+				regulator-name = "V_SD4";
+				regulator-min-microvolt = <1200000>;
+				regulator-max-microvolt = <1200000>;
+			};
+
+			sd5_reg: SD5 {
+				regulator-name = "V_SD5";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1800000>;
+			};
+
+			sd6_reg: SD6 {
+				regulator-name = "V_SD6";
+				regulator-min-microvolt = <3100000>;
+				regulator-max-microvolt = <3250000>;
+			};
+		};
+	};
 };

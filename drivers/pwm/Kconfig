@@ -82,3 +82,10 @@ config PWM_TI_EHRPWM
 	default y
 	help
 	  PWM driver support for the EHRPWM controller found on TI SOCs.
+
+config PWM_MAX77696
+	bool "Enable support for the MAX77696 backlight driver"
+	depends on DM_PWM && DM_PMIC_MAX77696
+	help
+	  This isn't actually a PWM but rather a current source made to look 
+	  like a PWM to work with backlight drivers.
