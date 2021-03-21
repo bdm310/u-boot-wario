@@ -22,7 +22,8 @@
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"console=ttymxc0\0" \
-	"fdt_addr=${fdtcontroladdr}\0" \
+	"fdtfile=imx6sl-wario.dtb\0" \
+	"fdt_addr_r=0x88000000\0" \
 	"ramdisk_addr_r=0x88300000\0" \
     "kernel_addr_r=0x82000000\0" \
 	"pxefile_addr_r=0x88100000\0" \
